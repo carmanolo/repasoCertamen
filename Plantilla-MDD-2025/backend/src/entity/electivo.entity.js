@@ -2,37 +2,35 @@
 
 import { EntitySchema } from "typeorm";
 
-export const UserEntity = new EntitySchema({
-    name: "User",
-    tableName: "users",
+export const ElectivoEntity = new EntitySchema({
+    name: "Electivo",
+    tableName: "electivos",
     columns: {
-        id: {
+        cod_electivo: {
             type: Number,
             primary: true,
             generated: true,
         },
-        username: {
+        nombre_electivo: {
             type: String,
             unique: true,
             nullable: false,
         },
-        rut: {
+        cupos: {
             type: String,
             unique: true,
             nullable: false,
         },
-        email: {
+        creditos: {
             type: String,
             unique: true,
             nullable: false,
         },
-        password: {
-            type: String,
+        id_usuario:{
+            type: Number,
+            primary: false,
+            generated: false,
             nullable: false,
-        },
-        role: {
-            type: String,
-            default: "user",
         },
         createdAt: {
             type: "timestamp",
@@ -43,7 +41,14 @@ export const UserEntity = new EntitySchema({
             default: () => "CURRENT_TIMESTAMP",
             onUpdate: () => "CURRENT_TIMESTAMP",
         },
+    },
+    relations:{
+        usuarios:{
+            type:"many-to-one",
+            target: "users",
+            joinColumn:{name:"id_usuario"}
+        }
     }
 });
 
-export default UserEntity;
+export default ElectivoEntity;

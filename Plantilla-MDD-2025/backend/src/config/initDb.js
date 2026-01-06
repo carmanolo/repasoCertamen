@@ -20,12 +20,22 @@ export async function createUsers() {
                 password: await encryptPassword("admin123"),
                 role: "administrador"
             },
-            {
-                username: "Usuario",
+{
+                username: "Profesor",
                 rut: "98765432-1",
-                email: "usuario@gmail.com",
+                email: "profesor@gmail.com",
+                password: await encryptPassword("profe123"),
+                role: "usuario"
+
+            },
+
+            {
+                username: "Estudiante",
+                rut: "98765432-1",
+                email: "estudiante@gmail.com",
                 password: await encryptPassword("usuario123"),
                 role: "usuario"
+
             }
         ]
 

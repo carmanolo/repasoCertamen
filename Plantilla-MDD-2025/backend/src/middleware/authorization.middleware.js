@@ -25,3 +25,51 @@ export async function isAdmin(req, res, next) {
     res.status(500).json({ message: "Error interno del servidor", error });
   }
 }
+
+export async function isTeacher(req, res, next) {
+  try {
+    const userRepository = AppDataSource.getRepository(User);
+    const userFound = await userRepository.findOneBy({
+      email: req.user?.email,
+    });
+    if (!userFound) return res.status(404).json("Usuario no encontrado");
+
+    const rolUser = userFound.role;
+
+    if (rolUser !== "profesor")
+      return res
+        .status(403)
+        .json({
+          message:
+            "Error al acceder al recurso. Se requiere un rol de profesor para realizar esta acción.",
+        });
+
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor", error });
+  }
+}
+
+export async function isStudent(req, res, next) {
+  try {
+    const userRepository = AppDataSource.getRepository(User);
+    const userFound = await userRepository.findOneBy({
+      email: req.user?.email,
+    });
+    if (!userFound) return res.status(404).json("Usuario no encontrado");
+
+    const rolUser = userFound.role;
+
+    if (rolUser !== "estudiante")
+      return res
+        .status(403)
+        .json({
+          message:
+            "Error al acceder al recurso. Se requiere un rol de estudiante para realizar esta acción.",
+        });
+
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor", error });
+  }
+}
